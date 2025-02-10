@@ -32,6 +32,7 @@ jobs:
       - name: Update base path in vite.config.ts
         run: |
           REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
+          # Ensure base path is correctly updated with the repository name
           sed -i 's|base: \"/\"|base: \"/'${REPO_NAME}'/\"|' vite.config.ts
           cat vite.config.ts  # To check if the config was updated correctly
 
