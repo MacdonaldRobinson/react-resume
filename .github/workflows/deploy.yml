@@ -32,14 +32,14 @@ jobs:
       - name: Install ts-node and TypeScript
         run: npm install -g ts-node typescript
 
-      # Step 5: Update base path dynamically in vite.config.ts
+      # Step 5: Update base path dynamically in vite.config.ts using ts-node ESM loader
       - name: Update base path in vite.config.ts
         run: |
           # Extract the repository name from the GITHUB_REPOSITORY variable
           REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
 
-          # Use ts-node with dynamic import to modify vite.config.ts
-          ts-node -e "
+          # Use ts-node with the ESM loader to dynamically import and update vite.config.ts
+          node -r ts-node/register/esm -e "
             (async () => {
               const fs = require('fs');
               const path = './vite.config.ts';
