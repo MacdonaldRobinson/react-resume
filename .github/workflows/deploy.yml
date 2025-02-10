@@ -27,10 +27,20 @@ jobs:
 
       - name: Update base path in vite.config.js
         run: |
+          # Ensure the working directory is the root of the repository
+          cd $GITHUB_WORKSPACE  # Make sure we're in the correct directory
+
           # Extract the repository name from the GITHUB_REPOSITORY variable
           REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
-          # Update the base path in vite.config.js to the correct GitHub Pages subpath
-          sed -i "s|base: \"/\"|base: \"/$REPO_NAME/\"|" vite.config.js
+
+          # Check if vite.config.js exists in the root directory
+          if [ -f "vite.config.js" ]; then
+            echo "vite.config.js found, updating base path"
+            sed -i "s|base: \"/\"|base: \"/$REPO_NAME/\"|" vite.config.js
+          else
+            echo "vite.config.js not found in the root directory"
+            exit 1
+          fi
 
       - name: Build project
         run: npm run build
