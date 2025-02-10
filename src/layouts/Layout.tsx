@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom"
 import MainMenu from "../components/MainMenu/MainMenu"
-import { FooterSection, LayoutWrapper, MainSection, MenuBarSection } from "./Layout.styled";
-import Footer from "../components/Footer/Footer";
+import {LayoutWrapper, MainSection, MenuBarSection } from "./Layout.styled";
 
 const Layout = ()=>{
     return <LayoutWrapper>
@@ -11,9 +10,6 @@ const Layout = ()=>{
         <MainSection>
             <Outlet />
         </MainSection>
-        {/* <FooterSection>
-            <Footer/>
-        </FooterSection> */}
     </LayoutWrapper>
 }
 
