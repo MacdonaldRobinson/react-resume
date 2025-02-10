@@ -38,19 +38,21 @@ jobs:
           # Extract the repository name from the GITHUB_REPOSITORY variable
           REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
 
-          # Use ts-node to modify vite.config.ts
+          # Use ts-node with dynamic import to modify vite.config.ts
           ts-node -e "
-            const fs = require('fs');
-            const path = './vite.config.ts';
-            
-            // Dynamically import the vite.config.ts (TypeScript file)
-            const config = require(path).default || require(path);  // Ensure compatibility for TS files
-            
-            // Update the base path to the repository name for GitHub Pages
-            config.base = '/${REPO_NAME}/';
+            (async () => {
+              const fs = require('fs');
+              const path = './vite.config.ts';
 
-            // Write the updated config back to vite.config.ts
-            fs.writeFileSync(path, 'export default ' + JSON.stringify(config, null, 2));
+              // Dynamically import the vite.config.ts file
+              const config = await import(path);
+
+              // Update the base path to the repository name for GitHub Pages
+              config.default.base = '/${REPO_NAME}/';
+
+              // Write the updated config back to vite.config.ts
+              fs.writeFileSync(path, 'export default ' + JSON.stringify(config.default, null, 2));
+            })()
           "
 
       # Step 6: Build the project
