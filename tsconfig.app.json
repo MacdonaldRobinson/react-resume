@@ -1,11 +1,17 @@
 {
-  "extends": "./tsconfig.base.json",  // Inherit common settings from the base config
   "compilerOptions": {
-    "jsx": "react-jsx",              // Enable JSX syntax support (for React 17+)
-    "moduleResolution": "bundler",   // Vite uses this for resolving modules
-    "lib": ["ES2023", "DOM"],        // Include browser (DOM) and modern JS libs
-    "noEmit": false                  // Allow emitting files (build will happen in Vite)
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "react-jsx",  // Enable JSX support
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*"],            // Include all TypeScript files in the `src` folder
-  "exclude": ["node_modules"]         // Exclude `node_modules` directory
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
