@@ -1,36 +1,38 @@
 name: Deploy to GitHub Pages
 
+# Trigger the workflow on push to main branch
 on:
   push:
     branches:
-      - main # Deploy when changes are pushed to the main branch
+      - main # Replace with your default branch if it's not 'main'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Check out the code
-      - name: Checkout code
+      # Check out the repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js environment
+      # Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16" # Specify the node version
+          node-version: "16" # Specify the Node.js version you want to use
 
-      # Step 3: Install dependencies
+      # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Build the project
+      # Build the project using Vite
       - name: Build the project
-        run: npm run build # This will run tsc and vite build
+        run: npm run build
 
-      # Step 5: Deploy to GitHub Pages
+      # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.3.5
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          branch: gh-pages # The branch to deploy to
-          folder: dist # Vite builds the files in the "dist" folder by default
-          token: ${{ secrets.GITHUB_TOKEN }} # Use GitHub token for authentication
+          publish_dir: ./dist # Folder to deploy
+          github_token: ${{ secrets.GITHUB_TOKEN }} # GitHub token for authentication
+          # Optional: Add custom base URL for GitHub Pages (in case your repo isn't hosted at root)
+          # base_url: "/<repo-name>/"
