@@ -1,38 +1,54 @@
 name: Deploy to GitHub Pages
 
-# Trigger the workflow on push to main branch
 on:
   push:
     branches:
-      - main # Replace with your default branch if it's not 'main'
+      - main # or the branch you want to deploy
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      # Check out the repository
-      - name: Checkout repository
-        uses: actions/checkout@v3
 
-      # Set up Node.js environment
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Node.js (ensure it's the correct version)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16" # Specify the Node.js version you want to use
+          node-version: "16" # specify the Node version (choose LTS or your required version)
+
+      # Cache node_modules to speed up the workflow
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
 
       # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Build the project using Vite
+      # Fix crypto issues in build environment (polyfill for CI/CD environment)
+      - name: Install crypto-browserify
+        run: npm install crypto-browserify
+
+      # Set up polyfill in the build environment (in case Vite needs it)
+      - name: Setup polyfill for crypto
+        run: echo "module.exports = require('crypto-browserify');" > node_modules/crypto.js
+
+      # Run the build command
       - name: Build the project
         run: npm run build
 
-      # Deploy to GitHub Pages
+      # Deploy to GitHub Pages using the GitHub Pages Action
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: jamesives/github-pages-deploy-action@v4.3.5
         with:
-          publish_dir: ./dist # Folder to deploy
-          github_token: ${{ secrets.GITHUB_TOKEN }} # GitHub token for authentication
-          # Optional: Add custom base URL for GitHub Pages (in case your repo isn't hosted at root)
-          # base_url: "/<repo-name>/"
+          branch: gh-pages
+          folder: dist
+          token: ${{ secrets.GITHUB_TOKEN }}
