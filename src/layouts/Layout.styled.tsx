@@ -12,8 +12,10 @@ export const MenuBarSection = styled.section`
 `;
 
 export const MainSection = styled.main`
-  height: 90%;
+  height: 100%;
   overflow: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
 `;
 
 export const FooterSection = styled.section`

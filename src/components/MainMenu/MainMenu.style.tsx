@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const NavItem = styled.li`
-    border: 1px solid red;
     padding: 5px;
     font-weight: bold;    
     cursor: pointer;
