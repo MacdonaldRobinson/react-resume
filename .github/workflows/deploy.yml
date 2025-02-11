@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16" # specify the Node version (choose LTS or your required version)
+          node-version: "18" # or '16'
 
       # Cache node_modules to speed up the workflow
       - name: Cache node modules
@@ -37,9 +37,9 @@ jobs:
       - name: Build the project
         run: npm run build
 
-      # Deploy to GitHub Pages using the correct GitHub Pages Action
+      # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
-        uses: jamesives/github-pages-deploy-action@v4 # Use the latest version
+        uses: jamesives/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: dist
