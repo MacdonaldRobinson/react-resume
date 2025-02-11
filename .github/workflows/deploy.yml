@@ -47,3 +47,14 @@ jobs:
           branch: gh-pages
           folder: dist
           token: ${{ secrets.GITHUB_TOKEN }} # Use the default GitHub token
+
+      # Optionally, Cache Node.js dependencies for future builds
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
