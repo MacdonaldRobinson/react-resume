@@ -1,20 +1,20 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "bundler",  // Change moduleResolution to "bundler"
-    "strict": true,
-    "esModuleInterop": true,
-    "allowJs": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowImportingTsExtensions": true,  // Keep this line
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"]
-    },
-    "noEmit": true  // Add this to prevent emitting files (for this configuration)
+    "target": "esnext",                            // Use modern JavaScript features
+    "module": "esnext",                            // Use dynamic import syntax for ES modules
+    "moduleResolution": "node",                    // Resolve modules using Node's module resolution strategy
+    "jsx": "react-jsx",                            // Enable JSX for React 17+ (automatic JSX transform)
+    "noEmit": true,                                // Don't emit files, let Vite handle the build
+    "esModuleInterop": true,                       // Enable default imports from CommonJS
+    "skipLibCheck": true,                          // Skip library file type checking for faster build
+    "strict": true,                                // Enable strict type-checking options for better safety
+    "resolveJsonModule": true,                     // Allow importing JSON files as modules
+    "forceConsistentCasingInFileNames": true       // Enforce consistent casing for file imports
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*"                                     // Include all source files under `src/`
+  ],
+  "exclude": [
+    "node_modules"                                 // Exclude `node_modules` directory
+  ]
 }
