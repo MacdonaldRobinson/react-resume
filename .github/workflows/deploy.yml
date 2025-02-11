@@ -33,21 +33,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Fix crypto issues in build environment (polyfill for CI/CD environment)
-      - name: Install crypto-browserify
-        run: npm install crypto-browserify
-
-      # Set up polyfill in the build environment (in case Vite needs it)
-      - name: Setup polyfill for crypto
-        run: echo "module.exports = require('crypto-browserify');" > node_modules/crypto.js
-
       # Run the build command
       - name: Build the project
         run: npm run build
 
-      # Deploy to GitHub Pages using the GitHub Pages Action
+      # Deploy to GitHub Pages using the correct GitHub Pages Action
       - name: Deploy to GitHub Pages
-        uses: jamesives/github-pages-deploy-action@v4.3.5
+        uses: jamesives/github-pages-deploy-action@v4 # Use the latest version
         with:
           branch: gh-pages
           folder: dist
